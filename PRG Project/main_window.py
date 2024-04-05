@@ -6,7 +6,7 @@ from tkinter import ttk
 def create_main_window(user_type,login_window):
     main_window = tk.Tk()
     main_window.geometry(main_window.geometry(f"+{login_window.winfo_x()}+{login_window.winfo_y()}"))
-    main_window.title(f"Product Quantity Manager - {user_type}")
+    main_window.title(f"AIMS - {user_type}")
 
         
     def add_product_quantity(barcode):

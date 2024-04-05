@@ -4,11 +4,9 @@ from tkinter import ttk
 from tkinter import messagebox
 import main_window
 
-
-
 def create_login_window():
     login_window = tk.Tk()
-    login_window.title("Login to AIMS")
+    login_window.title("Login to Automated Inventory Management System")
     login_window.geometry("500x400")    
     
     def connect_to_database():
