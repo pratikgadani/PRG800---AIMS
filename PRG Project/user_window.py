@@ -1,13 +1,12 @@
 import pyodbc
 import tkinter as tk
 from tkinter import ttk
-from export_report import export_to_excel
 
-# Create the main window
+# Create the user window
 def create_main_window(user_type,login_window):
-    main_window = tk.Tk()
-    main_window.geometry(main_window.geometry(f"+{login_window.winfo_x()}+{login_window.winfo_y()}"))
-    main_window.title(f"AIMS - {user_type}")
+    user_window = tk.Tk()
+    user_window.geometry(user_window.geometry(f"+{login_window.winfo_x()}+{login_window.winfo_y()}"))
+    user_window.title(f"AIMS - {user_type}")
 
         
     def add_product_quantity(barcode):
@@ -44,15 +43,15 @@ def create_main_window(user_type,login_window):
         else:
             update_status(f"Error: Quantity is already 0 for barcode: {barcode}")
 
-    def reset_total_quantity():
-        # Reset Total_Quantity and Remaining_Quantity to zero for all products
-        cursor.execute("""
-            UPDATE dbo.Table_data
-            SET Total_Quantity = 0,
-                Remaining_Quantity = 0
-        """)
-        connection.commit()
-        update_status("Total and Remaining quantities reset to zero for all products")
+#    def reset_total_quantity():
+#        # Reset Total_Quantity and Remaining_Quantity to zero for all products
+#        cursor.execute("""
+#            UPDATE dbo.Table_data
+#            SET Total_Quantity = 0,
+#                Remaining_Quantity = 0
+#        """)
+#        connection.commit()
+#        update_status("Total and Remaining quantities reset to zero for all products")
 
     def update_manual_quantity(barcode, total_quantity, remaining_quantity):
         # Update Total_Quantity and Remaining_Quantity manually for the given barcode
@@ -99,13 +98,10 @@ def create_main_window(user_type,login_window):
         update_manual_quantity(barcode, total_quantity, remaining_quantity)
     
     def logout_button_clicked():
-        main_window.destroy()
+        user_window.destroy()
         login_window.iconify()    
         login_window.deiconify()
         
-    def export_report_clicked():
-        export_to_excel()
-        export_label.config(text="Report Exported")
 
     # Variables
     action = tk.StringVar(value='add')  
@@ -126,7 +122,7 @@ def create_main_window(user_type,login_window):
 
 
     # Widgets
-    frame = ttk.Frame(main_window, padding="10")
+    frame = ttk.Frame(user_window, padding="10")
     frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
     ttk.Label(frame, text="Action:").grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
@@ -143,8 +139,8 @@ def create_main_window(user_type,login_window):
     product_name_label.grid(row=2, column=0, columnspan=3, padx=5, pady=5, sticky=tk.W)
 
     # Reset button
-    reset_button = ttk.Button(frame, text="Reset Total and Remaining Quantity", command=reset_total_quantity)
-    reset_button.grid(row=3, column=0, padx=5, pady=5, sticky=tk.W)
+    #reset_button = ttk.Button(frame, text="Reset Total and Remaining Quantity", command=reset_total_quantity)
+    #reset_button.grid(row=3, column=0, padx=5, pady=5, sticky=tk.W)
 
     # Manual entry section
     manual_entry_barcode_label = ttk.Label(frame, text="Barcode:")
@@ -169,24 +165,16 @@ def create_main_window(user_type,login_window):
     status_label.grid(row=8, column=0, columnspan=3, padx=5, pady=5, sticky=tk.W)
 
     # Logout button
-    logout_button = ttk.Button(main_window, text="Logout",command=logout_button_clicked)
+    logout_button = ttk.Button(user_window, text="Logout",command=logout_button_clicked)
     logout_button.grid(row=9, column=0, padx=5, pady=5, sticky=tk.E)
 
-
-    # Export Report button
-    export_report = ttk.Button(main_window, text="Export Report",command=export_report_clicked)
-    export_report.grid(row=9, column=0, padx=5, pady=5, sticky=tk.W)
-    export_label = ttk.Label(main_window)
-    export_label.grid(row=10, column=0, padx=5, pady=5, sticky=tk.W)
-
-
     # Bind the Enter key to the process_barcode function
-    main_window.bind('<Return>', process_barcode)
+    user_window.bind('<Return>', process_barcode)
 
     
     # Start the GUI event loop
     login_window.withdraw()
-    main_window.mainloop()
+    user_window.mainloop()
     
     # Close the cursor and connection
     cursor.close()

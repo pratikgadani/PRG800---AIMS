@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import main_window
+import user_window
 
 def create_login_window():
     login_window = tk.Tk()
@@ -28,7 +29,7 @@ def create_login_window():
                 stored_password, access_level = row  # Fetch the stored password and access_level from the database
                 if stored_password == password:  # Compare stored password with the entered password
                     if access_level == "Users":
-                        main_window.create_main_window("User", login_window)
+                        user_window.create_main_window("Users",login_window)
                     elif access_level == "Administrators":
                         main_window.create_main_window("Administrators",login_window)
             else:
